@@ -16,8 +16,6 @@ namespace FinalSP
                 Console.WriteLine($"{w.Key}: {w.Value}");
 
             File.WriteAllText("cleaned.txt", result.content);
-
-            Console.WriteLine("52525252");
         }
     }
 }
