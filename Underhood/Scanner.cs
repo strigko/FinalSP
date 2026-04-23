@@ -19,19 +19,20 @@
 
             foreach (var file in files)
             {
-                App.Instance.WaitIfPaused();
+                if (token.IsCancellationRequested)
+                    return;
 
-                if (file.Contains("Output"))
-                    continue;
+                App.Instance.WaitIfPaused();
 
                 try
                 {
-                    App.Instance.WaitIfPaused();
-
-                    if (App.Instance.IsStopped())
+                    if (token.IsCancellationRequested)
                         return;
 
-                    var result = Processor.Process(file, forbiddenWords);
+                    var result = Processor.Process(file, forbiddenWords, token);
+
+                    if (token.IsCancellationRequested)
+                        return;
 
                     Thread.Sleep(1000);
 
@@ -64,7 +65,7 @@
                 }
             }
 
-            report.Save(Path.Combine(folderPath, "Output", "report.txt"));
+            report.Save(Path.Combine(outputDir, "report.txt"));
             Console.WriteLine("Report saved successfully!");
         }
     }
