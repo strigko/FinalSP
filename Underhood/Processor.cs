@@ -18,6 +18,8 @@
 
                 while ((index = content.IndexOf(word, index, StringComparison.OrdinalIgnoreCase)) != -1)
                 {
+                    App.Instance.WaitIfPaused();
+
                     count++;
                     index += word.Length;
                 }
@@ -44,6 +46,8 @@
 
             while ((index = text.IndexOf(oldValue, index, StringComparison.OrdinalIgnoreCase)) != -1)
             {
+                App.Instance.WaitIfPaused();
+
                 text = text.Remove(index, oldValue.Length).Insert(index, newValue);
                 index += newValue.Length;
             }

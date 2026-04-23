@@ -1,21 +1,21 @@
-﻿using FinalSP.Underhood;
-
-namespace FinalSP
+﻿namespace FinalSP.Underhood
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            var words = new List<string> { "bad", "hack" };
+            Mutex mutex = new Mutex(true, "FinalSPApp", out bool isNew);
 
-            var result = Processor.Process("test.txt", words);
+            if (!isNew)
+            {
+                Console.WriteLine("App is already running");
+                return;
+            }
 
-            Console.WriteLine(result.replacements);
+            App app = new App();
+            App.Instance = app;
 
-            foreach (var w in result.stats)
-                Console.WriteLine($"{w.Key}: {w.Value}");
-
-            File.WriteAllText("cleaned.txt", result.content);
+            app.ShowMenu();
         }
     }
 }
